@@ -50,14 +50,10 @@ const dbFunction = async (dbName) => {
 4. In order to test this function, call it at the bottom of the file. Don't forget to pass it the database name as an argument.
 
 ```js
-dbFunction("exercise-1");
+dbFunction("exercise_1");
 ```
 
 5. Run this file from a new Terminal window. _Use the VS Code terminal for this_.
-
-```bash
-node exercises/exercise-1.1.js
-```
 
 If you see this in the terminal, it means that it worked.
 
@@ -76,6 +72,4 @@ await db.collection("users").insertOne({ name: "Buck Rogers" });
 
 Take a look at your mongoDB Atlas account. (_You may need to reload the page._) You should see the data you inserted right there!
 
-![insertone](../__lecture/assets/insertOne.png)
-
-W00T!!!
+![insertone](../lecture/assets/insertOne.png)

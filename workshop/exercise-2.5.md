@@ -1,11 +1,11 @@
-# Exercise 2.6 - `updateGreeting`
+# Exercise 2.5 - `updateGreeting`
 
 Some of the data doesn't have data for the `hello` key. It's missing. We can imagine that if someone were to query a for a language and that language didn't have a value for `hello`, we could turn around and ask them for it. (Making them work to better our database. 😉)
 
 Follow the same steps as in previous exercises.
 
 1. Create a new function called `updateGreeting`.
-2. Create an endpoint to update a database entry. Use `.patch()` and include `:_id` in the url. This will be the item we want to update.
+2. Create an endpoint to update a database entry. Use `.patch()` at `"/exercise-2/greetings/:_id"`. The `_id` will be the item we want to update.
 3. Test the connection. Send a test object in the body.
 
 ```json
@@ -20,7 +20,7 @@ Follow the same steps as in previous exercises.
 res.status(200).json({ status: 200, _id, ...req.body });
 ```
 
-5. The function should be built much like `.deleteOne`, with a few exceptions.
+5. The function should be built much like `.findOne`, with a few exceptions.
    - The `.updateOne()` method accepts TWO objects as arguments. The first one is the query, the second is the "new values."
 
 First Object:

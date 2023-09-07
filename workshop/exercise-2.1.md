@@ -15,7 +15,7 @@ const createGreeting = async (req, res) => {
 4. Create a `post` endpoint for this function ins `server.js`.
 
 ```js
-.post('/exercise-2/greeting', createGreeting)
+.post("/exercise-2/greetings", createGreeting)
 ```
 
 5. Use Insomnia to send the following `body` to that endpoint.

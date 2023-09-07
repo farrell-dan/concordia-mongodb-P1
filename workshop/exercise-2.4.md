@@ -7,7 +7,7 @@
 5. Use `.find()` to get back _all_ of the documents in the `greetings` collection.
 6. Use the `.toArray()`.
 7. Be sure to `res`pond appropriately. `find` will return an empty array if it doesn't find anything...
-8. Create a new endpoint: `.get('/exercise-2/greeting', getGreetings)`
+8. Create a new endpoint: `.get("/exercise-2/greetings", getGreetings)`
 9. Call this enpoint from Insomnia. It should return _all_ of the documents in the collection.
 
 Using `.find()` without passing anything to it will return _all_ of the documents in the collection.
@@ -21,14 +21,15 @@ It really isn't good practice to return _all_ of the data. What would happen if 
 
 11. This is better, but we need to allow user to be able to access all of the data.
 12. If a user were to query our server with this `/ex-2/greeting?start=10&limit=10`, they would receive the 10th to the 20th values. Make this possible in your function.
-    - There should also be fallback values if they only provide ony one of the query params, even none...
+    - There should also be default values if they only provide one or none of the query params.
+
 13. Finally, if the user requests a range that doesn't exist, is incomplete, we need to handle that. For example, if there are 100 documents, but they ask for `start=90&limit=20`, they should only receive the last 10 and nothing else.
 
 ## **Stretch goal**
 
 Once you've implemented all of 2.4, everything works, but the user might not know if their query was good or not. We could provide them with some additional data in the response to let them know what the received in regards to the data.
 
-For example, if there are only 12 values, but the query is `start=10&limit=5`. We should let the user know that we changed his/her query.
+For example, if there are only 12 values, but the query sent is `start=10&limit=5`; we should let the user know that we changed their query.
 
 ```js
 {
@@ -48,3 +49,5 @@ For example, if there are only 12 values, but the query is `start=10&limit=5`. W
   ]
 }
 ```
+
+> Notice how the limit has been changed from the 5 (sent by the user), to 2 (the maximum we could provide).

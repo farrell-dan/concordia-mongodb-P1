@@ -17,4 +17,4 @@ Once you are done connecting and retrieving data from the server, remember to `c
 
 Once you feel that you've got this all wired up, try start the server and try it out in Insomnia. _Dont't forget to do `yarn dev` to start up your server._
 
-![Insomnia](../__lecture/assets/insomnia-1.png)
+![Insomnia](../lecture/assets/insomnia-1.png)
