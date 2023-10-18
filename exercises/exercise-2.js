@@ -79,11 +79,9 @@ const getGreetings = async (request, response) => {
 
         const responsePayload = {
             status: 200,
+            Start: start,
+            Limit: adjustedLimit,
             data: result,
-            queryStart: start,
-            queryLimit: limit,
-            actualStart: start,
-            actualLimit: adjustedLimit,
         };
         
         if (adjustedLimit < limit) {
