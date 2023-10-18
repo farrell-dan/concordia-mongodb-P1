@@ -24,12 +24,6 @@ const addUser = async (request, response) => {
     const db = client.db("exercise_1");
 
     const result = await db.collection("users").insertOne({ name });
-    
-    // console.log(client);
-    // console.log(db);
-    console.log(result);
-    console.log(result.insertedId);
-    // console.log (name)
 
     if (result && result.insertedId) {
       return response
