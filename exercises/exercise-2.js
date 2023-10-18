@@ -26,7 +26,6 @@ const createGreeting = async (request, response) => {
 
 const getGreeting = async (request, response) => {
     const client = new MongoClient(MONGO_URI, options);
-    
     const _id = request.params._id;
     const db = client.db("exercises");
     await client.connect()
@@ -45,10 +44,8 @@ const getGreetings = async (request, response) => {
         await client.connect();
         const db = client.db("exercises");
         const collection = db.collection("greetings")
-
         const start = parseInt(request.query.start) || 0;
         const limit = parseInt(request.query.limit) || 25;
-
         if (start < 0 || limit < 0) {
           return response
             .status(400)
@@ -57,37 +54,27 @@ const getGreetings = async (request, response) => {
               message: "Start and limit must be positive numbers.",
             });
         }
-
-
         const totalDocuments = await collection.countDocuments();
-
          if (start >= totalDocuments) {
            return response.status(400).json({
              status: 400,
              message: "Start value is out of bounds.",
            });
          }
-
-         
-         const adjustedLimit = Math.min(limit, totalDocuments - start);
-
-
+        const adjustedLimit = Math.min(limit, totalDocuments - start);
         const result =
           start === 0 && limit === 0
             ? await collection.find({}).toArray()
             : await collection.find({}).skip(start).limit(adjustedLimit).toArray();
-
         const responsePayload = {
             status: 200,
             Start: start,
             Limit: adjustedLimit,
             data: result,
         };
-        
         if (adjustedLimit < limit) {
           responsePayload.message = `The query was adjusted to retrieve ${adjustedLimit} document(s) from the start position.`;
         }
-
         response.status(200).json(responsePayload)
     } catch (error) {
         response
@@ -97,4 +84,56 @@ const getGreetings = async (request, response) => {
     client.close()
 }
 
-module.exports = { createGreeting, getGreeting, getGreetings };
+const updateGreeting = async (request, response) => {
+    const client = new MongoClient(MONGO_URI, options);
+    try {
+        const _id = request.params._id;
+        const db = client.db("exercises");
+        const collection = db.collection("greetings")
+        await client.connect()
+        const updateObject = {$set: {"hello": request.body.hello, }}; 
+        const result = await collection.updateOne({ _id }, updateObject);    
+        if (result.modifiedCount === 1) {
+            response
+              .status(200)
+              .json({
+                status: 200,
+                _id,
+                ...request.body,
+                message: "Greeting updated successfully",
+              });
+        } else {
+            response.status(404).json({ status: 404, message: "Greeting not found" });
+        }
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ status: 500, message: "Internal Server Error" });
+    } finally {
+        client.close();
+    }
+};
+
+const deleteGreeting = async (request, response) => {
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("exercises");
+    const collection = db.collection("greetings");
+    const _id = request.params._id;
+    const result = await collection.deleteOne({ _id });
+    if (result.deletedCount === 1) {
+      response.status(204).json({ status: 204, message: "Greeting deleted" }); 
+    } else {
+      response.status(404).json({ status: 404, message: "Greeting not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    response
+      .status(500)
+      .json({ status: 500, message: "Internal Server Error" });
+  } finally {
+    client.close();
+  }
+};
+
+module.exports = { createGreeting, getGreeting, getGreetings, updateGreeting, deleteGreeting };
